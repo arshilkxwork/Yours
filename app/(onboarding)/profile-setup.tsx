@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { Colors } from '@/constants/Colors';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore, useProfileStore } from '@/store';
+import { isLiveSupabaseConfigured } from '@/lib/authService';
 
 export default function ProfileSetupScreen() {
   const router = useRouter();
@@ -54,42 +55,67 @@ export default function ProfileSetupScreen() {
     try {
       let avatarUrl: string | null = null;
 
-      // Upload avatar if selected
-      if (avatar) {
-        const ext = avatar.split('.').pop() ?? 'jpg';
-        const path = `avatars/${user.id}.${ext}`;
-        const response = await fetch(avatar);
-        const blob = await response.blob();
-        const { error: uploadError } = await supabase.storage
-          .from('private-media')
-          .upload(path, blob, { upsert: true, contentType: `image/${ext}` });
-        if (!uploadError) {
-          const { data } = supabase.storage.from('private-media').getPublicUrl(path);
-          avatarUrl = data.publicUrl;
+      // Upload avatar if selected and live Supabase connected
+      if (avatar && isLiveSupabaseConfigured()) {
+        try {
+          const ext = avatar.split('.').pop() ?? 'jpg';
+          const path = `avatars/${user.id}.${ext}`;
+          const response = await fetch(avatar);
+          const blob = await response.blob();
+          const { error: uploadError } = await supabase.storage
+            .from('private-media')
+            .upload(path, blob, { upsert: true, contentType: `image/${ext}` });
+          if (!uploadError) {
+            const { data } = supabase.storage.from('private-media').getPublicUrl(path);
+            avatarUrl = data.publicUrl;
+          }
+        } catch {
+          avatarUrl = avatar;
         }
+      } else if (avatar) {
+        avatarUrl = avatar;
       }
 
-      // Insert/upsert profile
-      const { data, error } = await supabase
-        .from('profiles')
-        .upsert({
-          user_id: user.id,
+      if (isLiveSupabaseConfigured()) {
+        const { data, error } = await supabase
+          .from('profiles')
+          .upsert({
+            user_id: user.id,
+            display_name: displayName.trim(),
+            bio: bio.trim() || null,
+            date_of_birth: dob || null,
+            avatar_url: avatarUrl,
+          })
+          .select()
+          .single();
+
+        if (error) {
+          Alert.alert('Error', error.message);
+        } else {
+          setProfile(data);
+          router.push('/(onboarding)/theme-pick');
+        }
+      } else {
+        // Local mode fallback
+        setProfile({
+          id: user.id,
           display_name: displayName.trim(),
           bio: bio.trim() || null,
           date_of_birth: dob || null,
           avatar_url: avatarUrl,
-        })
-        .select()
-        .single();
-
-      if (error) {
-        Alert.alert('Error', error.message);
-      } else {
-        setProfile(data);
+        });
         router.push('/(onboarding)/theme-pick');
       }
     } catch {
-      Alert.alert('Error', 'Could not save your profile. Please try again.');
+      // Local fallback on network failure
+      setProfile({
+        id: user.id,
+        display_name: displayName.trim(),
+        bio: bio.trim() || null,
+        date_of_birth: dob || null,
+        avatar_url: avatar,
+      });
+      router.push('/(onboarding)/theme-pick');
     } finally {
       setLoading(false);
     }

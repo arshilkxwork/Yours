@@ -2,7 +2,7 @@ import { useAuthStore, useProfileStore } from '@/store';
 
 export const DEMO_USER = {
   id: 'demo-user-sophia',
-  email: 'sophia@whisper.love',
+  email: 'sophia@yours.journal',
   user_metadata: { full_name: 'Sophia' },
   app_metadata: {},
   aud: 'authenticated',
@@ -25,7 +25,7 @@ export const DEMO_PARTNER = {
   date_of_birth: '1997-09-24',
 };
 
-export const DEMO_COUPLE_ID = 'demo-couple-whisper';
+export const DEMO_COUPLE_ID = 'demo-couple-yours';
 
 export const DEMO_MESSAGES = [
   {

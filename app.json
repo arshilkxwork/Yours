@@ -62,20 +62,20 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow Whisper to access your camera for photos and video calls."
+          "cameraPermission": "Allow Yours to access your camera for photos and video calls."
         }
       ],
       [
         "expo-image-picker",
         {
-          "photosPermission": "Allow Whisper to access your photos to share memories.",
-          "cameraPermission": "Allow Whisper to use your camera."
+          "photosPermission": "Allow Yours to access your photos to share memories.",
+          "cameraPermission": "Allow Yours to use your camera."
         }
       ],
       [
         "expo-av",
         {
-          "microphonePermission": "Allow Whisper to access your microphone for voice messages."
+          "microphonePermission": "Allow Yours to access your microphone for voice messages."
         }
       ]
     ],

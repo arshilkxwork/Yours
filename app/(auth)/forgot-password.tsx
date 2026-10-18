@@ -24,7 +24,7 @@ export default function ForgotPasswordScreen() {
     setLoading(true);
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
-        redirectTo: 'whisper://reset-password',
+        redirectTo: 'yours://reset-password',
       });
       if (error) {
         Alert.alert('Error', error.message);

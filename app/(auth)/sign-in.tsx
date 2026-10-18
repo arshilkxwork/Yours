@@ -190,7 +190,7 @@ export default function SignInScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.quickChip}
-                onPress={() => fillQuickAccount('sophia@whisper.love', 'password123')}
+                onPress={() => fillQuickAccount('sophia@yours.journal', 'password123')}
                 activeOpacity={0.7}
               >
                 <Text style={styles.quickChipText}>Sophia (Partner)</Text>

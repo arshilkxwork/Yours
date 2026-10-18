@@ -31,7 +31,7 @@ const DEFAULT_USERS: StoredUser[] = [
   },
   {
     id: 'user-sophia-02',
-    email: 'sophia@whisper.love',
+    email: 'sophia@yours.journal',
     password: 'password123',
     displayName: 'Sophia Chen',
     avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80',

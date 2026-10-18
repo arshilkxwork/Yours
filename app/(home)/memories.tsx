@@ -287,8 +287,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1, borderBottomColor: Colors.roseLight,
   },
   addBtn: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center' },
-  grid: { padding: 16, gap: 12 },
-  memoryCard: { flex: 1, borderRadius: 16, overflow: 'hidden', height: PHOTO_SIZE },
+  grid: { padding: 16, paddingBottom: 110, gap: 12 },
+  memoryCard: { flex: 1, borderRadius: 16, overflow: 'hidden', aspectRatio: 1 },
   memoryImage: { width: '100%', height: '100%' },
   captionOverlay: {
     position: 'absolute', bottom: 0, left: 0, right: 0,

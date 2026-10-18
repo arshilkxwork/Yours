@@ -84,7 +84,7 @@ export default function WelcomeScreen() {
             </View>
           </View>
           <View style={styles.zenPill}>
-            <Text style={styles.zenPillText}>MINDFUL LIVING &amp; FOCUS</Text>
+            <Text style={styles.zenPillText}>MINDFUL LIVING & FOCUS</Text>
           </View>
         </View>
 

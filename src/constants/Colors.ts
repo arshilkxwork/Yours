@@ -1,4 +1,4 @@
-// Whisper / Atelier Design System — Japandi Warm Stone & Glassmorphic Palette
+// Yours / Aura Design System — Japandi Warm Stone & Glassmorphic Palette
 export const Colors = {
   // Primary minimalist canvas & clay tones (from reference design)
   bgLinen: '#ECE8E1',

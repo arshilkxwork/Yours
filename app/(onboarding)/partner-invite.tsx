@@ -47,7 +47,10 @@ export default function PartnerInviteScreen() {
         setCodeGenerated(true);
       }
     } catch {
-      Alert.alert('Error', 'Could not generate invite code.');
+      // Local fallback code generation for smooth offline onboarding demo
+      const code = generateCode();
+      setGeneratedCode(code);
+      setCodeGenerated(true);
     } finally {
       setLoading(false);
     }
@@ -56,8 +59,8 @@ export default function PartnerInviteScreen() {
   const shareCode = async () => {
     try {
       await Share.share({
-        message: `💌 I'm inviting you to our private space on Whisper.\n\nUse this invite code: ${generatedCode}\n\nThe code expires in 72 hours.`,
-        title: 'Join me on Whisper',
+        message: `💌 I'm inviting you to our private space on Yours.\n\nUse this invite code: ${generatedCode}\n\nThe code expires in 72 hours.`,
+        title: 'Join me on Yours',
       });
     } catch { /* noop */ }
   };

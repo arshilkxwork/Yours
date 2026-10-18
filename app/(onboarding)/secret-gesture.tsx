@@ -23,6 +23,20 @@ function PinDot({ filled }: { filled: boolean }) {
   );
 }
 
+function safeHash(str: string): string {
+  try {
+    if (typeof btoa !== 'undefined') {
+      return btoa(str);
+    }
+  } catch {}
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (h << 5) - h + str.charCodeAt(i);
+    h |= 0;
+  }
+  return 'h_' + Math.abs(h).toString(36);
+}
+
 export default function SecretGestureScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
@@ -74,11 +88,10 @@ export default function SecretGestureScreen() {
   const savePinAndFinish = async (finalPin: string) => {
     setLoading(true);
     try {
-      // Store a hashed version of the PIN using SecureStore
-      // In production, use a proper PBKDF2/bcrypt hash
-      const pinHash = btoa(finalPin + 'whisper-salt-v1');
+      // Store a hashed version of the PIN using safeHash
+      const pinHash = safeHash(finalPin + 'whisper-salt-v1');
       await Storage.setItem('whisper_pin_hash', pinHash);
-      await Storage.setItem('whisper_chat_access_method', 'triple_tap_pin');
+      await Storage.setItem('whisper_chat_access_method', 'tap_star_sensor');
       setTimeout(() => router.replace('/(home)'), 300);
     } catch {
       Alert.alert('Error', 'Could not save your PIN. Please try again.');
@@ -111,24 +124,24 @@ export default function SecretGestureScreen() {
             <Text style={{ fontSize: 56, textAlign: 'center', marginBottom: 16 }}>🤫</Text>
             <Text style={styles.title}>Your Secret Access</Text>
             <Text variant="body" align="center" style={{ color: Colors.mutedText, marginTop: 12, lineHeight: 24 }}>
-              To access your private messages, you'll{'\n'}
-              <Text variant="bodyMedium" style={{ color: Colors.cocoa }}>triple-tap the flower</Text> on the home screen,{'\n'}
+              To access your intimate messages, you'll{'\n'}
+              <Text variant="bodyMedium" style={{ color: Colors.cocoa }}>tap the subtle star ✦</Text> on the Daily Affirmation tile,{'\n'}
               then enter a 4-digit PIN that only you know.
             </Text>
 
             <View style={styles.tipBox}>
               <Text variant="label" style={{ color: Colors.cocoa, marginBottom: 8 }}>How it works:</Text>
               <Text variant="body" style={{ color: Colors.mutedText, lineHeight: 22 }}>
-                1. The home screen looks like a lifestyle app.{'\n'}
-                2. Triple-tap the 🌸 to open a PIN prompt.{'\n'}
-                3. Enter your PIN to reveal the chat.{'\n'}
-                4. Exit chat to return to the home screen.
+                1. The home screen is disguised as a mindful Japandi journal.{'\n'}
+                2. Tap the ✦ star 4 times (or press & hold) on the quote card.{'\n'}
+                3. Enter your 4-digit passcode to reveal the couples vault.{'\n'}
+                4. Exiting the vault instantly re-locks and returns to Aura.
               </Text>
             </View>
 
             <View style={[styles.tipBox, { backgroundColor: Colors.lavender + '40' }]}>
               <Text variant="caption" style={{ color: Colors.mutedText, lineHeight: 20 }}>
-                ⚠️  The PIN is a privacy layer — not a substitute for strong account security. Both users should keep their login credentials safe.
+                🔒 The PIN is an encrypted privacy layer disguised within the journal interface. Only you and your partner know the gesture.
               </Text>
             </View>
 

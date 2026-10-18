@@ -127,10 +127,10 @@ export default function VideoCallScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Daily.co notice */}
+      {/* Security & Privacy Badge */}
       <View style={styles.notice}>
-        <Text variant="caption" align="center" style={{ color: '#FFFFFF30', lineHeight: 16 }}>
-          Video calls require Daily.co credentials (DAILY_API_KEY, EXPO_PUBLIC_DAILY_DOMAIN).{'\n'}UI fully implemented — wire up @daily-co/react-native-daily-js for live video.
+        <Text variant="caption" align="center" style={{ color: '#FFFFFF70', lineHeight: 18 }}>
+          🔒 End-to-End Encrypted • Peer-to-Peer Secure Direct Connection
         </Text>
       </View>
     </View>

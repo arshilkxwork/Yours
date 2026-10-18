@@ -77,6 +77,20 @@ function StatisticsChartSvg({ color, accent }: { color: string; accent: string }
   );
 }
 
+function safeHash(str: string): string {
+  try {
+    if (typeof btoa !== 'undefined') {
+      return btoa(str);
+    }
+  } catch {}
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (h << 5) - h + str.charCodeAt(i);
+    h |= 0;
+  }
+  return 'h_' + Math.abs(h).toString(36);
+}
+
 // ─── Disguised Journal Passcode Modal ─────────────────────────────────────────
 function DisguisedPasscodeModal({
   visible,
@@ -119,7 +133,7 @@ function DisguisedPasscodeModal({
     if (next.length === 4) {
       try {
         const stored = await Storage.getItem('whisper_pin_hash');
-        const hash = btoa(next + 'whisper-salt-v1');
+        const hash = safeHash(next + 'whisper-salt-v1');
         // Valid if matches stored hash, or default demo PIN '1234', or no hash set
         if (stored === hash || next === '1234' || !stored) {
           setPin('');

@@ -1,7 +1,7 @@
 import 'react-native-reanimated';
 import 'react-native-gesture-handler';
 import { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, View, StyleSheet } from 'react-native';
 import { Stack, useRouter, useSegments, useRootNavigationState } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -119,15 +119,42 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={layoutStyles.rootContainer}>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
           <ThemeProvider>
-            <RootLayoutNav />
+            <View style={layoutStyles.appViewport}>
+              <RootLayoutNav />
+            </View>
           </ThemeProvider>
         </QueryClientProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );
 }
+
+const layoutStyles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    backgroundColor: '#181716',
+  },
+  appViewport: {
+    flex: 1,
+    width: '100%',
+    ...(Platform.OS === 'web'
+      ? ({
+          maxWidth: 480,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          backgroundColor: '#ECE8E1',
+          shadowColor: '#000000',
+          shadowOffset: { width: 0, height: 16 },
+          shadowOpacity: 0.28,
+          shadowRadius: 36,
+          overflow: 'hidden',
+        } as any)
+      : {}),
+  },
+});
+
 
