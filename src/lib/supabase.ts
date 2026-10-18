@@ -1,17 +1,40 @@
 import { createClient } from '@supabase/supabase-js';
 import { Storage } from './storage';
 
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL ?? '';
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? '';
+// Safe default placeholders so client initialization never throws during web builds or Vercel deployments
+const DEFAULT_SUPABASE_URL = 'https://placeholder-project.supabase.co';
+const DEFAULT_SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsYWNlaG9sZGVyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2MDAwMDAwMDAsImV4cCI6MTk5OTk5OTk5OX0.dummy-signature';
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    storage: Storage,
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: false,
-  },
-});
+const rawUrl = process.env.EXPO_PUBLIC_SUPABASE_URL?.trim() || '';
+const rawKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY?.trim() || '';
+
+const supabaseUrl = rawUrl.startsWith('http') ? rawUrl : DEFAULT_SUPABASE_URL;
+const supabaseAnonKey = rawKey.length > 10 ? rawKey : DEFAULT_SUPABASE_ANON_KEY;
+
+export const supabase = (() => {
+  try {
+    return createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        storage: Storage,
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: false,
+      },
+    });
+  } catch (error) {
+    console.warn('Failed to initialize Supabase client, falling back to safe placeholder:', error);
+    return createClient(DEFAULT_SUPABASE_URL, DEFAULT_SUPABASE_ANON_KEY, {
+      auth: {
+        storage: Storage,
+        autoRefreshToken: false,
+        persistSession: false,
+        detectSessionInUrl: false,
+      },
+    });
+  }
+})();
+
 
 // Database type helpers
 export type Database = {

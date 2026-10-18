@@ -40,9 +40,10 @@ const DEFAULT_USERS: StoredUser[] = [
 ];
 
 export function isLiveSupabaseConfigured(): boolean {
-  const url = process.env.EXPO_PUBLIC_SUPABASE_URL || '';
-  return !!url && !url.includes('placeholder.supabase.co');
+  const url = process.env.EXPO_PUBLIC_SUPABASE_URL?.trim() || '';
+  return !!url && url.startsWith('http') && !url.includes('placeholder');
 }
+
 
 function makeMockSession(user: StoredUser): Session {
   const authUser: User = {
