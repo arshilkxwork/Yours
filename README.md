@@ -6,10 +6,8 @@
 
 ### 📖 About Yours
 
-* **Cover Disguise Description:**  
   *“An encrypted personal diary for authentic self-expression, private milestones, and daily life reflections.”*
 
-* **The Real Intimate Description:**  
   *“A living letter and private sanctuary addressed to only one person in the world. Where every unfiltered conversation, whispered midnight call, shared photo, and sacred memory lives safely—dedicated solely to the two of you.”*
 
 ---
