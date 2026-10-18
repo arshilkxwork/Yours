@@ -26,12 +26,17 @@ npm-debug.*
 yarn-debug.*
 yarn-error.*
 
-# macOS
+# macOS & IDE
 .DS_Store
 *.pem
+.claude/
+.agents/
 
-# local env files
+# local env files (never commit real credentials)
+.env
+.env.*
 .env*.local
+!.env.example
 
 # typescript
 *.tsbuildinfo
